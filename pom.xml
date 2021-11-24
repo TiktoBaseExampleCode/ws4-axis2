@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>ws4-axis2</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <!--     Java2Wsdl           -->
+                <groupId>org.apache.axis2</groupId>
+                <artifactId>axis2-java2wsdl-maven-plugin</artifactId>
+                <version>1.8.0</version>
+                <configuration>
+                    <className>com.tikto.services.HighScoreService</className>
+                    <outputFileName>${project.build.directory}/HighScoreService.wsdl</outputFileName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>java2wsdl</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!--      wsdltocode and service.xml      -->
+<!--                        <plugin>-->
+<!--                            <groupId>org.apache.axis2</groupId>-->
+<!--                            <artifactId>axis2-wsdl2code-maven-plugin</artifactId>-->
+<!--                            <version>1.8.0</version>-->
+<!--                            <executions>-->
+<!--                                <execution>-->
+<!--                                    <phase>generate-sources</phase>-->
+<!--                                    <goals>-->
+<!--                                        <goal>wsdl2code</goal>-->
+<!--                                    </goals>-->
+<!--                                    <configuration>-->
+<!--                                        <packageName>com.tikto.service</packageName>-->
+<!--                                        <wsdlFile>src/main/resources/wsdl/HighScoreService.wsdl</wsdlFile>-->
+<!--                                        <databindingName>xmlbeans</databindingName>-->
+<!--                                        <syncMode>sync</syncMode>-->
+<!--                                        <generateServerSide>true</generateServerSide>-->
+<!--                                        <generateServicesXml>true</generateServicesXml>-->
+<!--                                        <generateServerSideInterface>true</generateServerSideInterface>-->
+<!--                                    </configuration>-->
+<!--                                </execution>-->
+<!--                            </executions>-->
+<!--                        </plugin>-->
+
+            <!-- export into aar archive -->
+            <plugin>
+                <groupId>org.apache.axis2</groupId>
+                <artifactId>axis2-aar-maven-plugin</artifactId>
+                <version>1.8.0</version>
+                <configuration>
+                    <servicesXmlFile>${basedir}/src/main/resources/wsdl/services.xml</servicesXmlFile>
+                    <wsdlFile>${project.build.directory}/HighScoreService.wsdl</wsdlFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>
+                                aar
+                            </goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
